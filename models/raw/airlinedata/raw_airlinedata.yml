@@ -76,14 +76,3 @@ sources:
                 channel: 'application_team_data_alerts'
 
       - name: unique_tickets_csv
-
-      - name: flights_streaming_ice
-
-      - name: t1
-        columns:
-          - name: ts
-            tests:
-              - dbt_expectations.expect_column_to_exist
-              - dbt_expectations.expect_row_values_to_have_recent_data:
-                  datepart: hour
-                  interval: 3

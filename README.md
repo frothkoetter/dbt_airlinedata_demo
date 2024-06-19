@@ -4,7 +4,7 @@
 
 ### on your workstation
 Python >= 3.8
-dbt-core >= 1.3.0
+dbt-core >= 1.7.0
 git
 Atom editor
 
@@ -17,14 +17,15 @@ Loaded airlinedata set into S3 buckets of your CDP environment
 
 Start by cloning this repo
 ```
-git clone https://github.com/frothkoetter/dbt_airlinedata
+git clone https://github.com/frothkoetter/dbt_airlinedata_demo
 ```
 
 Next install the requirements
 
 ```
-pip install dbt-core==1.3.0
-pip install dbt-hive==1.3.1
+pip install dbt-core==1.7.15
+pip install dbt-hive
+pip install dbt-impala
 ```
 
 ### Configure connection to cdw
