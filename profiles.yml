@@ -1,0 +1,15 @@
+dbt_airlinedata:
+  outputs:
+    dev_hive:
+      type: hive
+      use_http_transport: true
+      use_ssl: true
+      auth_type: ldap #now also support kerberos
+      schema: "{{ env_var('DBT_HIVE_SCHEMA') }}"
+      user: "{{ env_var('DBT_HIVE_USER') }}"
+      password: "{{ env_var('DBT_HIVE_PASSWORD') }}"
+      host: "{{ env_var('DBT_HIVE_HOST') }}"
+      port: "{{ env_var('DBT_HIVE_PORT') | as_number}}"
+      http_path: "{{ env_var('DBT_HIVE_HTTP_PATH') }}"
+      threads: 2
+  target: dev_hive
