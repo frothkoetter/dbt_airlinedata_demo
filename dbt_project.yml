@@ -39,9 +39,8 @@ models:
   dbt_airlinedata:
     +materialized: table
     staging:
-    airlinedata:
-        +schema: stg_airlinedata
+        +schema: staging
     marts:
       +materialized: table
       airlinedata:
-        +schema: mart_airlinedata
+        +schema: marts

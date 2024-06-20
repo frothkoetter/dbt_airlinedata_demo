@@ -1,0 +1,55 @@
+models:
+  - name: traffic_cancel_airlines
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: airline_code
+        data_type: string
+        constraints:
+            - type: not_null
+
+      - name: airline_name
+        data_type: string
+        constraints:
+            - type: not_null
+
+      - name: year
+        data_type: int
+        constraints:
+            - type: not_null
+            - type: check
+              expression: "year >= {{ min_value }} and year <= {{ max_value }}"
+              config:
+                    min_value: 1995
+                    max_value: 2023
+
+      - name: month
+        data_type: int
+        constraints:
+              - type: not_null
+              - type: check
+                expression: "year >= {{ min_value }} and year <= {{ max_value }}"
+                config:
+                    min_value: 1995
+                    max_value: 2023
+
+      - name: flights_count
+        data_type: int
+        constraints:
+              - type: not_null
+
+      - name: cancelled
+        data_type: int
+        constraints:
+              - type: not_null
+
+      - name: departure_delay_minutes
+        data_type: int
+        constraints:
+              - type: not_null
+
+      - name: departure_delay_count
+        data_type: int
+        constraints:
+              - type: not_null
