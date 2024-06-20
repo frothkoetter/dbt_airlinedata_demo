@@ -13,19 +13,40 @@ Atom editor
 Provisioned a Hive CDW virtual warehouse
 Loaded airlinedata set into S3 buckets of your CDP environment
 
-## Install
+## Cerate in CML a project
 
-Start by cloning this repo
+Start by cloning this GitHub repo
 ```
-git clone https://github.com/frothkoetter/dbt_airlinedata_demo
+https://github.com/frothkoetter/dbt_airlinedata_demo
 ```
 
-Next install the requirements
+Next install the requirements dbt components
 
 ```
-pip install dbt-core==1.7.15
-pip install dbt-hive
-pip install dbt-impala
+pip install dbt-core==1.7.15 dbt-hive dbt-impala
+```
+
+## Configure dbt dependency packages
+```
+dbt deps
+```
+Expected output
+
+```
+12:53:19  Running with dbt=1.7.15
+12:53:19  Updating lock file in file path: /home/cdsw/package-lock.yml
+12:53:21  Installing dbt-labs/dbt_utils
+12:53:25  Installed from version 1.0.0
+12:53:25  Updated version available: 1.2.0
+12:53:25  Installing calogica/dbt_expectations
+12:53:28  Installed from version 0.10.3
+12:53:28  Up to date!
+12:53:28  Installing calogica/dbt_date
+12:53:29  Installed from version 0.10.1
+12:53:29  Up to date!
+12:53:29
+12:53:29  Updates available for packages: ['dbt-labs/dbt_utils']
+Update your versions in packages.yml, then run dbt deps
 ```
 
 ### Configure connection to cdw
