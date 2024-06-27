@@ -53,26 +53,48 @@ Update your versions in packages.yml, then run dbt deps
 
 create a file setenv.sh
 ```
-% vi setenv.sh
+% vi profil.yml
 ```
 Copy and past into file and adjust the environment variables
 
 ```
-export DBT_HIVE_SCHEMA=dbt_airlinedata
-export DBT_HIVE_USER=frothkoetter
-export DBT_HIVE_PASSWORD='XXXXXXXXX'
-export DBT_HIVE_HOST=hs2-cdw-vhol.dw-cdw1-aw-env.a465-9q4k.cloudera.site
-export DBT_HIVE_PORT=443
-export DBT_HIVE_HTTP_PATH=jdbc:hive2://hs2-cdw-vhol.dw-cdw1-aw-env.a465-9q4k.cloudera.site/default;transportMode=http;httpPath=cliservice;socketTimeout=60;ssl=true;auth=browser;
+dbt_airlinedata:
+  outputs:
+    dev_hive:
+      type: hive
+      use_http_transport: true
+      use_ssl: true
+      auth_type: ldap #now also support kerberos
+      schema: "dbt_airlinedata_frothkoetter"
+      user: "frothkoetter"
+      password: "XXXXXXXXXX"
+      host: "hs2-ctm03-cdw-hive.dw-ctm03-cdp-env.a465-9q4k.cloudera.site"
+      port: 443
+      http_path: "jdbc:hive2://hs2-ctm03-cdw-hive.dw-ctm03-cdp-env.a465-9q4k.cloudera.site/default;transportMode=http;httpPath=cliservice;socketTimeout=60;ssl=true;auth=browser;"
+      threads: 2
+  target: dev_hive
 ```
 The DBT_HIVE_HOST and DBT_HIVE_HTTP_PATH copy from your CDW Hive virtual warehouse
 
 ![](images/image002.png)
 
-Set the environment variables
+change in model/raw/airlinedata/raw_airlinedata add your name to the schema: dbt_airlinedata_YOURNAME
+
 ```
-chmod 700 setenv.sh
-source setenv.sh
+version: 2
+
+sources:
+  - name: raw_airlinedata
+    schema: dbt_airlinedata_frothkoetter
+    tables:
+      - name: flights_csv
+        columns:
+        - name: year
+          tests:
+           - not_null
+           - dbt_utils.accepted_range:
+              min_value: 1995
+              max_value: 2023
 ```
 
 ### Check installation
