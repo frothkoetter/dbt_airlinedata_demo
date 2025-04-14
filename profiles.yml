@@ -8,8 +8,8 @@ dbt_airlinedata:
       schema: "dbt_airlinedata_demo"
       user: "frothkoetter"
       password: "SAX201linga"
-      host: hs2-de-dw-demo-hive.dw-se-sandboxx-aws.a465-9q4k.cloudera.site
+      host: hs2-cdw-aw-se-hive.dw-se-sandboxx-aws.a465-9q4k.cloudera.site
       port: 443
-      http_path: "jdbc:hive2://hs2-de-dw-demo-hive.dw-se-sandboxx-aws.a465-9q4k.cloudera.site/default;transportMode=http;httpPath=cliservice;socketTimeout=60;ssl=true;retries=3;"
+      http_path: "jdbc:hive2://hs2-cdw-aw-se-hive.dw-se-sandboxx-aws.a465-9q4k.cloudera.site/default;transportMode=http;httpPath=cliservice;socketTimeout=60;ssl=true;auth=browser;"
       threads: 2
   target: dev_hive
