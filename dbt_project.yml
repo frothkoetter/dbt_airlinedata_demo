@@ -44,3 +44,7 @@ models:
       +materialized: table
       airlinedata:
         +schema: marts
+    reports:
+      +materialized: table
+      airlinedata:
+        +schema: reports

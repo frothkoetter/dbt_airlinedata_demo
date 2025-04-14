@@ -1,0 +1,5 @@
+# models.yml
+version: 2
+models:
+  - name: airline_performance
+    description: "Aggregated airline performance data"

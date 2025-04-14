@@ -7,9 +7,9 @@ dbt_airlinedata:
       auth_type: ldap #now also support kerberos
       schema: "dbt_airlinedata_demo"
       user: "frothkoetter"
-      password: "password"
-      host: "cdw-host"
-      port: 443 
-      http_path: "url-"
+      password: "SAX201linga"
+      host: hs2-de-dw-demo-hive.dw-se-sandboxx-aws.a465-9q4k.cloudera.site
+      port: 443
+      http_path: "jdbc:hive2://hs2-de-dw-demo-hive.dw-se-sandboxx-aws.a465-9q4k.cloudera.site/default;transportMode=http;httpPath=cliservice;socketTimeout=60;ssl=true;retries=3;"
       threads: 2
   target: dev_hive

@@ -18,7 +18,7 @@ version: 2
 
 sources:
   - name: raw_airlinedata
-    schema: dbt_airlinedata
+    schema: dbt_airlinedata_demo
     tables:
       - name: flights_csv
         columns:
