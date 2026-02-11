@@ -15,7 +15,11 @@
 #  * limitations under the License.
 #  */
 #}
-
+{{ config(
+    materialized='table',
+    file_format='PARQUET',
+    table_format='ICEBERG'
+) }}
 
 
 with avg_day as (

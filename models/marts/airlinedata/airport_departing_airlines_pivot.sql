@@ -1,6 +1,11 @@
 {#
 #  pivot a resultset top deparing airlines by airports
 #}
+{{ config(
+    materialized='table',
+    file_format='PARQUET',
+    table_format='ICEBERG'
+) }}
 
 with dep_flights as (
 select

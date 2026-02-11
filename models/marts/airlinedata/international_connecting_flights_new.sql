@@ -15,6 +15,11 @@
 #  * limitations under the License.
 #  */
 #}
+{{ config(
+    materialized='table',
+    file_format='PARQUET',
+    table_format='ICEBERG'
+) }}
 
 
 with connecting_flights as (

@@ -14,6 +14,11 @@
 #  * See the License for the specific language governing permissions and
 #  * limitations under the License.
 #  */
+{{ config(
+    materialized='table',
+    file_format='PARQUET',
+    table_format='ICEBERG'
+) }}
 
 
 {{
