@@ -7,6 +7,7 @@
 SELECT
     f.uniquecarrier AS airline_code,
     a.description as airline_name,
+    f.year as flight_year,
     COUNT(*) AS total_flights,
     AVG(f.depdelay) AS avg_departure_delay,
     AVG(f.arrdelay) AS avg_arrival_delay,
@@ -15,4 +16,4 @@ SELECT
 FROM {{ ref('stg_airlinedata__flights') }} f
 LEFT JOIN {{ ref('stg_airlinedata__airlines') }} a
     ON f.uniquecarrier = a.code
-GROUP BY  f.uniquecarrier, a.description
+GROUP BY  f.uniquecarrier, a.description, f.year

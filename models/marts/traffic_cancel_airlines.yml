@@ -53,3 +53,22 @@ models:
         data_type: int
         constraints:
               - type: not_null
+
+
+  - name: airport_departing_airlines_pivot
+    columns:
+      - name: total_departures
+        tests:
+          # Check that the value is within a reasonable range
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 5000
+          # Ensure the column type is actually numeric (vital for Parquet)
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: number
+
+      - name: airport_code
+        tests:
+          # Ensure the code always matches the IATA 3-letter format
+          - dbt_expectations.expect_column_value_lengths_to_equal:
+             value: 3

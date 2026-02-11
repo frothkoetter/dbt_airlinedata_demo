@@ -27,7 +27,7 @@ sources:
            - not_null
            - dbt_utils.accepted_range:
               min_value: 1995
-              max_value: 2023
+              max_value: 2026
 
       - name: airlines_csv
         tests:

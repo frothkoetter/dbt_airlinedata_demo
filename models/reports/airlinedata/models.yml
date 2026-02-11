@@ -1,5 +1,25 @@
-# models.yml
 version: 2
+
 models:
   - name: airline_performance
-    description: "Aggregated airline performance data"
+    tests:
+      - dbt_expectations.expect_column_pair_values_A_to_be_greater_than_B:
+          column_A: total_flights
+          column_B: total_cancelled
+          # allow_out_of_range_values: true # Set to true if = is okay, false for strictly >
+    columns:
+      - name: airline_code
+        tests:
+          - dbt_expectations.expect_column_value_lengths_to_be_between:
+              min_value: 2
+              max_value: 3
+
+      - name: avg_departure_delay
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: -60
+              max_value: 1440
+
+      - name: airline_name
+        tests:
+          - not_null
