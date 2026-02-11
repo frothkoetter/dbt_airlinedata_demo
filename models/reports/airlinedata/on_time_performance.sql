@@ -1,3 +1,9 @@
+{{ config(
+    materialized='table',
+    file_format='PARQUET',
+    table_format='ICEBERG'
+) }}
+
 SELECT
     year,
     uniquecarrier,

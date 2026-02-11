@@ -1,5 +1,10 @@
 
 -- models/plane_statistics.sql
+{{ config(
+    materialized='table',
+    file_format='PARQUET',
+    table_format='ICEBERG'
+) }}
 
 WITH flight_data AS (
     SELECT

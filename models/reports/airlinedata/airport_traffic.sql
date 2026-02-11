@@ -1,3 +1,9 @@
+{{ config(
+    materialized='table',
+    file_format='PARQUET',
+    table_format='ICEBERG'
+) }}
+
 WITH traffic_data AS (
     SELECT
         origin AS airport_code,

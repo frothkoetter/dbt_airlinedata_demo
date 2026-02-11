@@ -1,3 +1,9 @@
+{{ config(
+    materialized='table',
+    file_format='PARQUET',
+    table_format='ICEBERG'
+) }}
+
 WITH route_details AS (
     SELECT
         f.origin AS origin_airport_code,

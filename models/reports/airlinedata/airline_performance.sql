@@ -1,3 +1,9 @@
+{{ config(
+    materialized='table',
+    file_format='PARQUET',
+    table_format='ICEBERG'
+) }}
+
 SELECT
     f.uniquecarrier AS airline_code,
     a.description as airline_name,

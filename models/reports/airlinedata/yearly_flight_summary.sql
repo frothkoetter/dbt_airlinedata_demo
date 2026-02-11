@@ -1,3 +1,9 @@
+{{ config(
+    materialized='table',
+    file_format='PARQUET',
+    table_format='ICEBERG'
+) }}
+
 WITH aggregated_data AS (
     SELECT
         year AS flight_year,
@@ -18,7 +24,7 @@ WITH aggregated_data AS (
     FROM {{ ref('stg_airlinedata__flights') }}
     GROUP BY
         year,
-        uniquecarrier, 
+        uniquecarrier,
         origin,
         dest,
         tailnum,

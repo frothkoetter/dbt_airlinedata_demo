@@ -1,3 +1,9 @@
+{{ config(
+    materialized='table',
+    file_format='PARQUET',
+    table_format='ICEBERG'
+) }}
+
 SELECT
     origin AS origin_airport_code,
     dest AS destination_airport_code,
