@@ -1,5 +1,6 @@
 dbt_airlinedata:
   outputs:
+#  Development Output
     dev_hive:
       type: hive
       use_http_transport: true
@@ -12,4 +13,19 @@ dbt_airlinedata:
       port: 443
       http_path: "jdbc:hive2://hs2-cdw-aw-se-hive.dw-se-sandbox-aws.a465-9q4k.cloudera.site/default;transportMode=http;httpPath=cliservice;socketTimeout=60;ssl=true;auth=browser;"
       threads: 2
-  target: dev_hive
+
+#  Production Output
+    prod_hive:
+      type: hive
+      use_http_transport: true
+      use_ssl: true
+      auth_type: ldap
+      schema: "dbt_airlinedata" # Production-ready schema name
+      user: "frothkoetter"      # Suggestion: Use a service account for prod
+      password: "SAX201linga"
+      host: hs2-cdw-aw-se-hive.dw-se-sandbox-aws.a465-9q4k.cloudera.site
+      port: 443
+      http_path: "jdbc:hive2://hs2-cdw-aw-se-hive.dw-se-sandbox-aws.a465-9q4k.cloudera.site/default;transportMode=http;httpPath=cliservice;socketTimeout=60;ssl=true;auth=browser;"
+      threads: 4
+
+  target: dev_hive # Keeps dev as default to prevent accidental prod runs
