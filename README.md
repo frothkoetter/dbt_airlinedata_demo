@@ -3,30 +3,31 @@
 ## Prerequisits
 
 ### on your workstation
-Python >= 3.8
-dbt-core >= 1.7.0
+Python >= 3.9 <= 3.12
+dbt-core >= 1.9.0
 git
-Atom editor
 
-### in CDP
+
+### CDP - Prerequisits
 
 Provisioned a Hive CDW virtual warehouse
 Loaded airlinedata set into S3 buckets of your CDP environment
 
-## Cerate in CML a project
+## Create a project in Cloudera AI Workbench
 
 Start by cloning this GitHub repo
 ```
 https://github.com/frothkoetter/dbt_airlinedata_demo
 ```
+Set the environment variable WORKLOAD_PASSWORD in User Settings
 
-Next install the requirements dbt components
+Next open a session with Python and install the dbt components
 
 ```
-pip install dbt-core==1.7.15 dbt-hive dbt-impala
+pip install dbt-core==1.10.8 dbt-hive==1.10.0
 ```
 
-## Configure dbt dependency packages
+## Install dbt dependency packages
 ```
 dbt deps
 ```

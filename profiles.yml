@@ -8,7 +8,7 @@ dbt_airlinedata:
       auth_type: ldap #now also support kerberos
       schema: "dbt_airlinedata_demo"
       user: "frothkoetter"
-      password: "SAX201linga"
+      password: "{{ env_var('WORKLOAD_PASSWORD') }}"
       host: hs2-cdw-aw-se-hive.dw-se-sandbox-aws.a465-9q4k.cloudera.site
       port: 443
       http_path: "jdbc:hive2://hs2-cdw-aw-se-hive.dw-se-sandbox-aws.a465-9q4k.cloudera.site/default;transportMode=http;httpPath=cliservice;socketTimeout=60;ssl=true;auth=browser;"
@@ -22,7 +22,7 @@ dbt_airlinedata:
       auth_type: ldap
       schema: "dbt_airlinedata" # Production-ready schema name
       user: "frothkoetter"      # Suggestion: Use a service account for prod
-      password: "SAX201linga"
+      password:  "{{ env_var('WORKLOAD_PASSWORD') }}"
       host: hs2-cdw-aw-se-hive.dw-se-sandbox-aws.a465-9q4k.cloudera.site
       port: 443
       http_path: "jdbc:hive2://hs2-cdw-aw-se-hive.dw-se-sandbox-aws.a465-9q4k.cloudera.site/default;transportMode=http;httpPath=cliservice;socketTimeout=60;ssl=true;auth=browser;"
