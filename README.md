@@ -27,55 +27,54 @@ Next open a session with Python and install the dbt components
 pip install dbt-core==1.10.8 dbt-hive==1.10.0
 ```
 
-## Install dbt dependency packages
+## Install dbt dependency packages dbt_utils and dbt_expectations
 ```
 dbt deps
 ```
 Expected output
 
 ```
-12:53:19  Running with dbt=1.7.15
-12:53:19  Updating lock file in file path: /home/cdsw/package-lock.yml
-12:53:21  Installing dbt-labs/dbt_utils
-12:53:25  Installed from version 1.0.0
-12:53:25  Updated version available: 1.2.0
-12:53:25  Installing calogica/dbt_expectations
-12:53:28  Installed from version 0.10.3
-12:53:28  Up to date!
-12:53:28  Installing calogica/dbt_date
-12:53:29  Installed from version 0.10.1
-12:53:29  Up to date!
-12:53:29
-12:53:29  Updates available for packages: ['dbt-labs/dbt_utils']
+16:17:52  Running with dbt=1.10.8
+16:17:55  Installing dbt-labs/dbt_utils
+16:17:59  Installed from version 1.0.0
+16:17:59  Updated version available: 1.3.3
+16:17:59  Installing metaplane/dbt_expectations
+16:18:03  Installed from version 0.10.10
+16:18:03  Up to date!
+16:18:03  Installing godatadriven/dbt_date
+16:18:04  Installed from version 0.17.1
+16:18:04  Up to date!
+16:18:04  
+16:18:04  Updates available for packages: ['dbt-labs/dbt_utils']                 
 Update your versions in packages.yml, then run dbt deps
 ```
 
-### Configure connection to cdw
+### Configure connection to Cloudera Data Warhouse (Hive)
 
-create a file setenv.sh
-```
+
 % vi profil.yml
 ```
-Copy and past into file and adjust the environment variables
+Navigate to profil.yml and adjust the environment variables
 
 ```
 dbt_airlinedata:
   outputs:
+#  Development Output
     dev_hive:
       type: hive
       use_http_transport: true
       use_ssl: true
       auth_type: ldap #now also support kerberos
-      schema: "dbt_airlinedata_frothkoetter"
+      schema: "dbt_airlinedata_demo"
       user: "frothkoetter"
-      password: "XXXXXXXXXX"
-      host: "hs2-ctm03-cdw-hive.dw-ctm03-cdp-env.a465-9q4k.cloudera.site"
+      password: "{{ env_var('WORKLOAD_PASSWORD') }}"
+      host: hs2-cdw-aw-se-hive.dw-se-sandbox-aws.a465-9q4k.cloudera.site
       port: 443
-      http_path: "jdbc:hive2://hs2-ctm03-cdw-hive.dw-ctm03-cdp-env.a465-9q4k.cloudera.site/default;transportMode=http;httpPath=cliservice;socketTimeout=60;ssl=true;auth=browser;"
+      http_path: "jdbc:hive2://hs2-cdw-aw-se-hive.dw-se-sandbox-aws.a465-9q4k.cloudera.site/default;transportMode=http;httpPath=cliservice;socketTimeout=60;ssl=true;auth=browser;"
       threads: 2
-  target: dev_hive
+
 ```
-The DBT_HIVE_HOST and DBT_HIVE_HTTP_PATH copy from your CDW Hive virtual warehouse
+The HOST: and HTTP_PATH copy from your CDW Hive virtual warehouse JDBC link
 
 ![](images/image002.png)
 
@@ -106,28 +105,30 @@ sources:
 Expected output
 
 ```
-17:20:35  Running with dbt=1.3.0
-dbt version: 1.3.0
-python version: 3.9.12
-python path: /opt/homebrew/opt/python@3.9/bin/python3.9
-os info: macOS-12.4-arm64-arm-64bit
-Using profiles.yml file at /Users/frothkoetter/se-tools/github/dbt-hive-example/dbt_airlinedata/profiles.yml
-Using dbt_project.yml file at /Users/frothkoetter/se-tools/github/dbt-hive-example/dbt_airlinedata/dbt_project.yml
+16:24:36  Running with dbt=1.10.8
+16:24:37  dbt version: 1.10.8
+16:24:37  python version: 3.10.19
+16:24:37  python path: /usr/local/bin/python3.10
+16:24:37  os info: Linux-6.1.159-182.297.amzn2023.x86_64-x86_64-with-glibc2.39
+16:24:37  Using profiles dir at /home/cdsw
+16:24:37  Using profiles.yml file at /home/cdsw/profiles.yml
+16:24:37  Using dbt_project.yml file at /home/cdsw/dbt_project.yml
+16:24:37  adapter type: hive
+16:24:37  adapter version: 1.10.0
+16:24:37  Configuration:
+16:24:37    profiles.yml file [OK found and valid]
+16:24:37    dbt_project.yml file [OK found and valid]
+16:24:37  Required dependencies:
+16:24:37   - git [OK found]
 
-Configuration:
-  profiles.yml file [OK found and valid]
-  dbt_project.yml file [OK found and valid]
+16:24:37  Connection:
+16:24:37    host: hs2-cdw-aw-se-hive.dw-se-sandbox-aws.a465-9q4k.cloudera.site
+16:24:37    schema: dbt_airlinedata_demo
+16:24:37    user: frothkoetter
+16:24:37  Registered adapter: hive=1.10.0
+16:24:41    Connection test: [OK connection ok]
 
-Required dependencies:
- - git [OK found]
-
-Connection:
-  host: hs2-cdw-vhol.dw-cdw1-aw-env.a465-9q4k.cloudera.site
-  schema: dbt_airlinedata
-  user: frothkoetter
-  Connection test: [OK connection ok]
-
-All checks passed!
+16:24:41  All checks passed!
 ```
 
 # Prepare CDW Virtual warehouse
@@ -169,14 +170,6 @@ CREATE EXTERNAL TABLE airports_csv(iata string, airport string, city string, sta
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
 STORED AS TEXTFILE LOCATION '/airlinedata-csv/airports' tblproperties("skip.header.line.count"="1");
 
-drop table if exists unique_tickets_csv;
-CREATE external TABLE unique_tickets_csv (ticketnumber BIGINT, leg1flightnum BIGINT, leg1uniquecarrier STRING, leg1origin STRING,   leg1dest STRING, leg1month BIGINT, leg1dayofmonth BIGINT,   
- leg1dayofweek BIGINT, leg1deptime BIGINT, leg1arrtime BIGINT,   
- leg2flightnum BIGINT, leg2uniquecarrier STRING, leg2origin STRING,   
- leg2dest STRING, leg2month BIGINT, leg2dayofmonth BIGINT,   leg2dayofweek BIGINT, leg2deptime BIGINT, leg2arrtime BIGINT )
-ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
-STORED AS TEXTFILE LOCATION '/airlinedata-csv/unique_tickets'
-tblproperties("skip.header.line.count"="1");
 ```
 
 Check that tables created and accessing the files in S3
